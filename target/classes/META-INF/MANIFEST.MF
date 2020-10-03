@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
-Built-By: manishbaghel
-Build-Jdk: 14.0.2
+Build-Jdk-Spec: 14
+Implementation-Title: sporty_shoes
+Implementation-Version: 0.0.1-SNAPSHOT
 Created-By: Maven Integration for Eclipse
 
