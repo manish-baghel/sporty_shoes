@@ -17,12 +17,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Shoe {
-	
+	public Shoe(int id, String name, String category, double price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.price = price;
+	}
+
 	@Id
 	@GeneratedValue
 	private int id;
 	private String name;
 	private String category;
 	private double price;
+
 
 }

@@ -25,6 +25,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class PurchaseReport {
+	
+	
+
+	public PurchaseReport(int id, String purchasedBy, String category, Date dop, String orderList) {
+		super();
+		this.id = id;
+		this.purchasedBy = purchasedBy;
+		this.category = category;
+		this.dop = dop;
+		this.orderList = orderList;
+	}
 
 	@Id
 	@GeneratedValue
@@ -35,7 +46,16 @@ public class PurchaseReport {
 	@Temporal(TemporalType.DATE)
 	private Date dop;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	Map<Integer,Shoe> orderList = new HashMap<Integer,Shoe>();
+/**
+ * This can be used for storing orderlist as <Qty, Shoe>
+ * Here implementation is made simple by using shoeId instead
+ * of shoe in string format.
+ */
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	Map<Integer,Shoe> orderList = new HashMap<Integer,Shoe>();
+//								OR
+//	Map<Integer,Integer> orderList = new HashMap<Integer,Integer>();
+	
+	String orderList;
 	
 }
