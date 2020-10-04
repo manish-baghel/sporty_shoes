@@ -1,0 +1,23 @@
+package com.api.sportyShoes.service;
+
+import java.sql.Date;
+import java.util.List;
+
+import com.api.sportyShoes.exceptionHandler.BusinessException;
+import com.api.sportyShoes.model.PurchaseReport;
+import com.api.sportyShoes.model.Shoe;
+
+public interface SportyShoesService {
+	
+	public Shoe createShoe(Shoe shoe);
+	public Shoe getShoeById(int id) throws BusinessException;
+	public void deleteShoeById(int id) throws BusinessException;
+	public List<Shoe> getAllShoes();
+	
+	public PurchaseReport createPurchaseReport(PurchaseReport pr);
+	public PurchaseReport getPurchaseReportById(int id) throws BusinessException;
+	public List<PurchaseReport> getAllPurchaseReports();
+	public List<PurchaseReport> getAllPurchaseReportsByCategory(String category);
+	public List<PurchaseReport> getAllPurchaseReportsByDOP(Date dop);
+
+}
