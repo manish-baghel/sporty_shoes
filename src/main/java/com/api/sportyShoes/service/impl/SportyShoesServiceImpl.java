@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.api.sportyShoes.exceptionHandler.BusinessException;
@@ -74,9 +75,19 @@ public class SportyShoesServiceImpl implements SportyShoesService{
 		}
 		return shoe;
 	}
+	
+	public Shoe updateShoe(Shoe shoe) {
+		return shoesRepo.save(shoe);
+	}
 
 	public void deleteShoeById(int id) throws BusinessException {
-		shoesRepo.deleteById(id);
+		try {
+			shoesRepo.deleteById(id);
+		}catch(IllegalArgumentException e) {
+			throw new BusinessException("Invalid id: "+id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new BusinessException("SHoe does not exist with id: "+id);
+		}
 	}
 
 	public List<Shoe> getAllShoes() {
@@ -106,6 +117,20 @@ public class SportyShoesServiceImpl implements SportyShoesService{
 		return pr;
 	}
 	
+	public PurchaseReport updatePurchaseReport(PurchaseReport pr) {
+		return prRepo.save(pr);
+	}
+	
+	public void deletePurchaseReportById(int id) throws BusinessException {
+		try {
+			prRepo.deleteById(id);
+		}catch(IllegalArgumentException e) {
+			throw new BusinessException("Invalid id: "+id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new BusinessException("Puchase Report does not exist with Id: "+id);
+		}
+	}
+
 
 	public List<PurchaseReport> getAllPurchaseReports() {
 		return prRepo.findAll();

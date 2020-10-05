@@ -1,8 +1,5 @@
 package com.api.sportyShoes.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,84 +23,132 @@ public class CRUDController {
 
 	@Autowired
 	private SportyShoesService service;
-	
+
 	private MultiValueMap<String, String> errorMap;
-	
+
+	/**
+	 * Shoe post request controller
+	 * 
+	 * @param shoe
+	 * @return ResponseEntity<Shoe> with newly created Shoe
+	 */
 	@PostMapping("/admin/shoe")
 	public ResponseEntity<Shoe> createShoe(@RequestBody Shoe shoe) {
 		try {
-			return new ResponseEntity<>(service.createShoe(shoe),HttpStatus.OK);
+			return new ResponseEntity<>(service.createShoe(shoe), HttpStatus.OK);
 		} catch (BusinessException e) {
 			errorMap = new LinkedMultiValueMap<>();
 			errorMap.add("errorMessage:", e.getMessage());
-			return new ResponseEntity<>(null, errorMap,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, errorMap, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	/**
+	 * Shoe get request controller
+	 * 
+	 * @param id
+	 * @return ResponseEntity<Shoe> with the given id
+	 */
 	@GetMapping("/admin/shoe/{id}")
-	public ResponseEntity<Shoe> getShoeById(@PathVariable int id){
+	public ResponseEntity<Shoe> getShoeById(@PathVariable int id) {
 		try {
 			return new ResponseEntity<>(service.getShoeById(id), HttpStatus.OK);
-		}catch(BusinessException e) {
+		} catch (BusinessException e) {
 			errorMap = new LinkedMultiValueMap<>();
 			errorMap.add("errorMessage:", e.getMessage());
-			return new ResponseEntity<>(null, errorMap,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, errorMap, HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
+	/**
+	 * Shoe put(update) request controller
+	 * 
+	 * @param shoe
+	 * @return ResponseEntity<Shoe> with updated shoe
+	 */
+	@PutMapping("/admin/shoe")
+	public ResponseEntity<Shoe> updateShoe(@RequestBody Shoe shoe) {
+		return new ResponseEntity<>(service.updateShoe(shoe), HttpStatus.OK);
+	}
+
+	/**
+	 * Shoe delete request controller
+	 * 
+	 * @param id
+	 * @return ResponseEntity<String> containing the status of delete operation
+	 */
 	@DeleteMapping("/admin/shoe/{id}")
 	public ResponseEntity<String> deleteShoeById(@PathVariable int id) {
 		try {
 			service.deleteShoeById(id);
-			return new ResponseEntity<>("Succesfully deleted show with id: "+id,HttpStatus.OK);
-		}catch(BusinessException e) {
-			errorMap = new LinkedMultiValueMap<>();
-			errorMap.add("errorMessage:", e.getMessage());
-			return new ResponseEntity<>(e.getMessage(), errorMap,HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	
-	@GetMapping("/admin/shoe/all")
-	public ResponseEntity<List<Shoe>> getAllShoes(){
-		return new ResponseEntity<List<Shoe>>(service.getAllShoes(), HttpStatus.OK);
-	}
-	
-	@PostMapping("/admin/purchaseReport")
-	public ResponseEntity<PurchaseReport> createPurchaseReport(@RequestBody PurchaseReport pr) {
-		try {
-			return new ResponseEntity<>(service.createPurchaseReport(pr),HttpStatus.OK);
+			return new ResponseEntity<>("Succesfully deleted shoe with id: " + id, HttpStatus.OK);
 		} catch (BusinessException e) {
 			errorMap = new LinkedMultiValueMap<>();
 			errorMap.add("errorMessage:", e.getMessage());
-			return new ResponseEntity<>(null, errorMap,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), errorMap, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@GetMapping("/admin/purchaseReport/id/{id}")
-	public ResponseEntity<PurchaseReport> getPurchaseReportById(@PathVariable int id){
+
+	/**
+	 * Purchase Report post request controller
+	 * 
+	 * @param pr - Purchase Report
+	 * @return ResponseEntity<PurchaseReport> with newly created Purchase Report
+	 */
+	@PostMapping("/admin/purchaseReport")
+	public ResponseEntity<PurchaseReport> createPurchaseReport(@RequestBody PurchaseReport pr) {
 		try {
-			return new ResponseEntity<>(service.getPurchaseReportById(id), HttpStatus.OK);
-		}catch(BusinessException e) {
+			return new ResponseEntity<>(service.createPurchaseReport(pr), HttpStatus.OK);
+		} catch (BusinessException e) {
 			errorMap = new LinkedMultiValueMap<>();
 			errorMap.add("errorMessage:", e.getMessage());
-			return new ResponseEntity<>(null, errorMap,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, errorMap, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@GetMapping("/admin/purchaseReport/category/{category}")
-	public ResponseEntity<List<PurchaseReport>> getAllPurchaseReportsByCategory(@PathVariable String category){
-		return new ResponseEntity<List<PurchaseReport>>(service.getAllPurchaseReportsByCategory(category), HttpStatus.OK);
+
+	/**
+	 * Purchase Report get request controller
+	 * 
+	 * @param id
+	 * @return ResponseEntity<PurchaseReport> with given id
+	 */
+	@GetMapping("/admin/purchaseReport/id/{id}")
+	public ResponseEntity<PurchaseReport> getPurchaseReportById(@PathVariable int id) {
+		try {
+			return new ResponseEntity<>(service.getPurchaseReportById(id), HttpStatus.OK);
+		} catch (BusinessException e) {
+			errorMap = new LinkedMultiValueMap<>();
+			errorMap.add("errorMessage:", e.getMessage());
+			return new ResponseEntity<>(null, errorMap, HttpStatus.NOT_FOUND);
+		}
 	}
-	
-	@GetMapping("/admin/purchaseReport/date/{dateInMs}")
-	public ResponseEntity<List<PurchaseReport>> getAllPurchaseReportsByDop(@PathVariable Long dateInMs){
-		Date dop = new Date(dateInMs);
-		return new ResponseEntity<List<PurchaseReport>>(service.getAllPurchaseReportsByDOP(dop), HttpStatus.OK);
+
+	/**
+	 * Purchase Report put(update) request controller
+	 * 
+	 * @param pr
+	 * @return ResponseEntity<PurchaseReport> containing updated Purchase Report
+	 */
+	@PutMapping("/admin/purchaseReport")
+	public ResponseEntity<PurchaseReport> updatePurchaseReport(@RequestBody PurchaseReport pr) {
+		return new ResponseEntity<>(service.updatePurchaseReport(pr), HttpStatus.OK);
 	}
-	
-	@GetMapping("/admin/purchaseReport/all")
-	public ResponseEntity<List<PurchaseReport>> getAllPurchaseReport(){
-		return new ResponseEntity<List<PurchaseReport>>(service.getAllPurchaseReports(), HttpStatus.OK);
+
+	/**
+	 * Purchase Report delete request controller
+	 * 
+	 * @param id
+	 * @return ResponseEntity<String> containing the status of delete request.
+	 */
+	@DeleteMapping("/admin/purchaseReport/{id}")
+	public ResponseEntity<String> deletePurchaseReportById(@PathVariable int id) {
+		try {
+			service.deletePurchaseReportById(id);
+			return new ResponseEntity<>("Succesfully deleted Purchase Report with id: " + id, HttpStatus.OK);
+		} catch (BusinessException e) {
+			errorMap = new LinkedMultiValueMap<>();
+			errorMap.add("errorMessage:", e.getMessage());
+			return new ResponseEntity<>(e.getMessage(), errorMap, HttpStatus.BAD_REQUEST);
+		}
 	}
 }
