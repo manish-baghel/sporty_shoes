@@ -1,14 +1,10 @@
 package com.api.sportyShoes.model;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
